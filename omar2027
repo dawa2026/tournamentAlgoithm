@@ -1,0 +1,74 @@
+#include <iostream>
+#include <climits>
+using namespace std;
+
+#define MAX 100
+
+int tree[2 * MAX];
+int n;
+
+// Build the tournament tree
+void buildTree(int arr[]) {
+    // Initialize tree with INT_MAX
+    for (int i = 0; i < 2 * n; i++) {
+        tree[i] = INT_MAX;
+    }
+
+    // Insert elements into leaves
+    for (int i = 0; i < n; i++) {
+        tree[n + i] = arr[i];
+    }
+
+    // Build internal nodes
+    for (int i = n - 1; i > 0; i--) {
+        tree[i] = min(tree[2 * i], tree[2 * i + 1]);
+    }
+}
+
+// Update tree after removing minimum
+void updateTree(int index) {
+    tree[index] = INT_MAX;
+
+    while (index > 1) {
+        index /= 2;
+        tree[index] = min(tree[2 * index], tree[2 * index + 1]);
+    }
+}
+
+// Tournament Sort function
+void tournamentSort(int arr[]) {
+    buildTree(arr);
+
+    cout << "Sorted array: ";
+
+    for (int i = 0; i < n; i++) {
+        int minVal = tree[1];
+        cout << minVal << " ";
+
+        // Find leaf node of min value
+        int index;
+        for (index = n; index < 2 * n; index++) {
+            if (tree[index] == minVal)
+                break;
+        }
+
+        updateTree(index);
+    }
+}
+
+// Main function
+int main() {
+    int arr[MAX];
+
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter elements:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    tournamentSort(arr);
+
+    return 0;
+}
