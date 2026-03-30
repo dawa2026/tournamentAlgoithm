@@ -2,7 +2,7 @@ Project Description
 
 This project implements the Tournament Sort algorithm in C++ to sort a list of integers in ascending order. The program does not use any built-in sorting functions.
 
-It also tracks:
+    It also tracks:
 
 The number of comparisons
 The number of swaps (updates) performed during sorting
